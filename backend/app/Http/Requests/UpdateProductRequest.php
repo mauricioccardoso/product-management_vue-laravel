@@ -27,9 +27,7 @@ class UpdateProductRequest extends FormRequest
             'price' => ['required', 'numeric', 'min:0'],
             'expiration_date' => ['required', 'date', 'after:today'],
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'category_id' => [
-                'required', 'numeric', 'min:0'
-            ],
+            'category_id' => ['required', 'exists:categories,id'],
         ];
     }
 
@@ -58,8 +56,7 @@ class UpdateProductRequest extends FormRequest
             'expiration_date.after' => 'A data de validade deve ser uma data depois de hoje.',
 
             'category_id.required' => 'A categoria é obrigatória.',
-            'category_id.numeric' => 'A categoria deve ser um número.',
-            'category_id.min' => 'A categoria deve ser maior que 0.',
+            'category_id.exists' => 'A categoria selecionada inválida.',
         ];
     }
 }

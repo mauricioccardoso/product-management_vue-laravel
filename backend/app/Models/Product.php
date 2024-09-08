@@ -34,4 +34,9 @@ class Product extends Model
             'expiration_date' => 'datetime',
         ];
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
