@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,11 +27,12 @@ class AuthController extends Controller
 
             return response()->json([
                 'message' => 'Authorized',
-                'token' => $request->user()->createToken('general', $permission)->plainTextToken
+                'token' => $request->user()->createToken('general', $permission)->plainTextToken,
+                'user' => new UserResource($user)
             ], 200);
         }
 
-        return response()->json('Not Authorized', 403);
+        return response()->json(['error' => 'Not Authorized'], 403);
 
     }
 }
