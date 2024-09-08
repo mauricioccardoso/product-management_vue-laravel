@@ -1,0 +1,47 @@
+FROM php:8.3-cli
+
+# Wait-for - Packages
+RUN apt update && apt install -y wget ncat
+
+# Wait-for - Used to wait for a specific service (db) within a container to be available
+            # before starting the start.sh script
+RUN wget -q -O /usr/bin/wait-for https://raw.githubusercontent.com/eficode/wait-for/v2.2.3/wait-for && \
+    chmod +x /usr/bin/wait-for
+
+# PHP / Laravel - Packages
+RUN apt update && apt install -y \
+    git \
+    unzip \
+    libonig-dev \
+    libzip-dev \
+    zip
+
+# PHP extensions installation
+RUN docker-php-ext-install pdo_mysql mbstring zip
+
+# Composer - Composer instalation
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN php -r "unlink('composer-setup.php');"
+
+# Create user "php"
+RUN useradd -u 1000 -ms /bin/bash php
+
+# Switch to the 'node' user
+USER php
+
+# Set the working directory
+WORKDIR /home/php/backend
+
+# Copy .bash_aliases to the home directory of the 'php' user
+COPY ./.bash_aliases        /home/php/
+
+# Copy scripts to /usr/local/bin
+COPY ./start.sh             /usr/local/bin
+COPY ./laravel-install.sh   /usr/local/bin
+
+# Expose port 8080 for the application
+EXPOSE 8080
+
+# Define the default command to run the start.sh script
+CMD [ "/usr/local/bin/start.sh" ]

@@ -1,0 +1,4 @@
+# Do not delete this file
+
+# Here will be the backup/dump files created by MYSQL. Using the command below inside the MySQL database container.
+# mysqldump -u YOUR_USER -p --databases DATABASE_NAME > /dump/BACKUP_NAME.sql
