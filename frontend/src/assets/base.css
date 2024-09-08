@@ -1,0 +1,9 @@
+:root {
+  --app-font-family: 'Nunito Sans', sans-serif;
+
+  --app-bg-primary: #0e044a;
+  --app-bg-primary-light: #dee6f8;
+  --app-bg-secondary: #f8f8f8;
+  --app-label-primary: #2f4565;
+  --app-label-secondary: #584bf9;
+}
