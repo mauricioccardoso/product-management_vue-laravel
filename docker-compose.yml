@@ -1,4 +1,18 @@
 services:
+  app-frontend:
+    build:
+      context: .devDocker/frontend
+      dockerfile: Dockerfile.dev
+    container_name: app-frontend
+    command: wait-for app-database:3306 -t 120 -- /usr/local/bin/start.sh
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/home/node/frontend
+    networks:
+      - app-network
+
   app-backend:
     build:
       context: .devDocker/backend

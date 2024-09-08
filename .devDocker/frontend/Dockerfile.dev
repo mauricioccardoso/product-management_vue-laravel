@@ -1,0 +1,21 @@
+FROM node:20.17-slim
+
+# Wait-for - Packages
+RUN apt update && apt install -y wget ncat
+
+# Wait-for - Used to wait for a specific service within a container to be available
+            # before starting the start.sh script
+RUN wget -q -O /usr/bin/wait-for https://raw.githubusercontent.com/eficode/wait-for/v2.2.3/wait-for && \
+   chmod +x /usr/bin/wait-for
+
+USER node
+
+WORKDIR /home/node/frontend
+
+COPY ./.bash_aliases    /home/node
+COPY ./start.sh         /usr/local/bin
+COPY ./vue-install.sh   /usr/local/bin
+
+EXPOSE 5173
+
+CMD [ "/usr/local/bin/start.sh" ]
