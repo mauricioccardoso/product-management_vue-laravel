@@ -1,0 +1,39 @@
+services:
+  app-backend:
+    build:
+      context: .devDocker/backend
+      dockerfile: Dockerfile.dev
+    container_name: app-backend
+    restart: unless-stopped
+    command: wait-for app-database:3306 -t 120 -- /usr/local/bin/start.sh
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/home/php/backend
+    depends_on:
+      - app-database
+    networks:
+      - app-network
+
+  app-database:
+    build:
+      context: .devDocker/database
+      dockerfile: Dockerfile.db.dev
+    container_name: app-database
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    ports:
+      - "8083:3306"
+    volumes:
+      - .devDocker/database/_dbData:/var/lib/mysql
+      - .devDocker/database/entrypoint-initdb:/docker-entrypoint-initdb.d/
+      - .devDocker/database/dump:/dump
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

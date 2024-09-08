@@ -1,0 +1,6 @@
+backend/.env
+
+# Docker - Database
+.devDocker/database/_dbData
+.devDocker/database/entrypoint-initdb/*.sql
+.devDocker/database/dump/*.sql
