@@ -5,23 +5,20 @@ namespace App\Http\Controllers;
 use App\Helpers\Logger;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return User::paginate(15);
+        return UserResource::collection(
+            User::with('role')->withoutAdmin()->paginate(15)
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreUserRequest $request)
     {
         DB::beginTransaction();
@@ -29,9 +26,7 @@ class UserController extends Controller
             $user = User::create($request->except(['password_confirmationa']));
             DB::commit();
 
-            return response()->json([
-                'user' => $user
-            ], 201);
+            return new UserResource($user);
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -43,11 +38,10 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, int $user)
     {
+        $user = User::findOrFail($user);
+
         DB::beginTransaction();
         try {
             $role = Role::where('name', '=', $request->input('role'))->firstOrFail();
@@ -57,9 +51,7 @@ class UserController extends Controller
             ]);
             DB::commit();
 
-            return response()->json([
-                'user' => $user
-            ]);
+            return new UserResource($user);
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -69,8 +61,5 @@ class UserController extends Controller
 
             return response()->json(["error" => $th], 500);
         }
-
-
-
     }
 }
