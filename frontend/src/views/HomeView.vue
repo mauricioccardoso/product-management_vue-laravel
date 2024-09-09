@@ -1,10 +1,13 @@
 <template>
-  Hello World
+  <div class="flex min-h-screen bg-app-bg-secondary">
+    <SideBar />
 
-  <p>{{ userDataStore.userData }}</p>
+    <RouterView />
+  </div>
 </template>
 
 <script setup>
+import SideBar from '@/components/MainView/SideBar.vue'
 import { useUserDataStore } from '@/stores/UserDataStore'
 
 const userDataStore = useUserDataStore()
