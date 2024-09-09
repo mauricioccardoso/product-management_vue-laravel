@@ -41,7 +41,15 @@ export const useAuthDataStore = defineStore('authDataStore', () => {
     userDataStore.setUserData(respData.user)
     isAuth.value = true
     notificationStore.showNotification('Login realizado', 'success')
-    await router.push({ name: 'home' })
+    await router.push({ name: 'products' })
+
+    const clear = async () => {
+      isAuth.value = false
+      userDataStore.clear()
+      sessionStorage.clear()
+
+      await router.push({ name: 'login' })
+    }
   }
 
   return { isAuth, makingLoginRequest, login }
