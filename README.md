@@ -162,3 +162,7 @@ Frontend - Aplicação
 
 Backend - Server Status
 [http://localhost:8080/](http://localhost:8080/)
+
+Para testes
+Email: <admin@mail.com>
+Senha: Definida no .env do backend - admin123

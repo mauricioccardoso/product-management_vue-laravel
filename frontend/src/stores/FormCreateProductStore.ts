@@ -3,6 +3,7 @@ import { useNotificationStore } from '@/stores/NotificationStore'
 import type { AxiosError, AxiosResponse } from 'axios'
 import { defineStore } from 'pinia'
 import { type Ref, ref } from 'vue'
+import { useProductsStore } from './ProductsStore'
 
 type Category = {
   id: number
@@ -11,6 +12,7 @@ type Category = {
 
 export const useFormCreateProductStore = defineStore('formCreateProductStore', () => {
   const notificationStore = useNotificationStore()
+  const productsStore = useProductsStore()
 
   const isFormOpen: Ref<boolean> = ref(false)
   const makingCreateRequest = ref(false)
@@ -61,6 +63,7 @@ export const useFormCreateProductStore = defineStore('formCreateProductStore', (
     }
 
     isFormOpen.value = false
+    await productsStore.getProducts()
     notificationStore.showNotification('Produto salvo.', 'success')
   }
 
