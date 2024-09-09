@@ -25,7 +25,6 @@ export const useAuthDataStore = defineStore('authDataStore', () => {
         return data
       })
       .catch((error: AxiosError) => {
-        console.log('not ok')
         return error
       })
       .finally(() => {
@@ -42,15 +41,15 @@ export const useAuthDataStore = defineStore('authDataStore', () => {
     isAuth.value = true
     notificationStore.showNotification('Login realizado', 'success')
     await router.push({ name: 'products' })
-
-    const clear = async () => {
-      isAuth.value = false
-      userDataStore.clear()
-      sessionStorage.clear()
-
-      await router.push({ name: 'login' })
-    }
   }
 
-  return { isAuth, makingLoginRequest, login }
+  const clear = async () => {
+    isAuth.value = false
+    userDataStore.clear()
+    sessionStorage.clear()
+
+    await router.push({ name: 'login' })
+  }
+
+  return { isAuth, makingLoginRequest, login, clear }
 })

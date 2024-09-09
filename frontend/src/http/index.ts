@@ -9,7 +9,8 @@ const httpClient: AxiosInstance = axios.create({
 })
 
 httpClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token: string = sessionStorage.getItem('ACCESS_TOKEN')
+  // const token: string = sessionStorage.getItem('ACCESS_TOKEN')
+  const token: string = '25|KEjzobc7QMpbQZoiw4hv5YbTHCC66PgF6UfnwSt0650892ce'
 
   config.headers.Authorization = `Bearer ${token}`
   return config
