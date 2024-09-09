@@ -16,14 +16,14 @@ if [ -e /home/php/backend/composer.json ] && [ -e /home/php/backend/.env ]; then
   echo -e "\e[32m Key generated \e[0m"
 
   echo -e "\e[32m Running migrations \e[0m"
-  php artisan migrate
+  php artisan migrate --seed
   echo -e "\e[32m Migrations completed \e[0m"
 
-  echo -e "\n\e[32;1m Keeping the container up \e[0m"
-  tail -f /dev/null
+  # echo -e "\n\e[32;1m Keeping the container up \e[0m"
+  # tail -f /dev/null
 
-  # echo -e "\e[32m Running the server on port 8080 \e[0m"
-  # php artisan serve --host=0.0.0.0 --port=8080
+  echo -e "\e[32m Running the server on port 8080 \e[0m"
+  php artisan serve --host=0.0.0.0 --port=8080
 
 elif [ -e /home/php/backend/composer.json ] && ! [ -e /home/php/backend/.env ]; then
   echo -e "\n\e[33;1m *** Warning - File .env does not exist \e[0m"
