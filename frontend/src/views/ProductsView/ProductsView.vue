@@ -15,7 +15,7 @@ import ProductCard from '@/components/ProductCard/ProductCard.vue'
 import ProductRegistrationLayout from '@/components/ProductsForm/ProductRegistrationLayout.vue'
 import HeaderMain from '@/components/ProductsView/HeaderMain.vue'
 import { useProductsStore } from '@/stores/ProductsStore'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 const productsStore = useProductsStore()
 
@@ -26,6 +26,13 @@ onMounted(async () => {
   products.value = productsStore.productsPaginated.data
   console.log(products)
 })
+
+watch(
+  () => productsStore.productsPaginated,
+  (newVal) => {
+    products.value = newVal.data
+  }
+)
 </script>
 
 <style scoped>
