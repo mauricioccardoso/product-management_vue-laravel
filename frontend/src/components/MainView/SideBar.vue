@@ -1,7 +1,7 @@
 <template>
   <section
     :class="{ 'ml-[-300px]': !sidebarControllerStore.isSidebarOpen }"
-    class="absolute z-20 sm:ml-0 sm:static sm:z-0 transition transition-all duration-300 flex flex-col justify-between h-full min-h-screen w-64 bg-app-bg-primary text-white p-9"
+    class="absolute z-20 sm:ml-0 sm:static sm:z-0 transition transition-all duration-300 flex flex-col justify-between mix-h-full min-h-screen w-64 bg-app-bg-primary text-white p-9"
   >
     <div>
       <IRedeLogo class="w-full" />

@@ -35,4 +35,10 @@ class AuthController extends Controller
         return response()->json(['error' => 'Not Authorized'], 403);
 
     }
+
+    public function check(Request $request) {
+        return response()->json([
+            'check' => true
+        ]);
+    }
 }
