@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
         return response()->json(
-            Product::with('category')->all()
+            Product::with('category')->paginate(10)
         );
     }
 

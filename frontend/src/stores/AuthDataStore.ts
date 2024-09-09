@@ -17,8 +17,6 @@ export const useAuthDataStore = defineStore('authDataStore', () => {
   const login = async (data: { email: string; password: string }) => {
     makingLoginRequest.value = true
 
-    httpClient.interceptors.request.clear()
-
     const respData = await httpClient
       .post('/login', data)
       .then(({ data }: AxiosResponse) => {
@@ -51,5 +49,23 @@ export const useAuthDataStore = defineStore('authDataStore', () => {
     await router.push({ name: 'login' })
   }
 
-  return { isAuth, makingLoginRequest, login, clear }
+  const checkToken = async (): Promise<void> => {
+    const respData = await httpClient
+      .get('/check')
+      .then(({ data }: AxiosResponse) => {
+        return data
+      })
+      .catch((error: AxiosError) => {
+        return error
+      })
+
+    if (respData?.message) {
+      notificationStore.showNotification('Sessão expirada. Faça login novamente!', 'error')
+      return
+    }
+
+    isAuth.value = true
+  }
+
+  return { isAuth, makingLoginRequest, login, clear, checkToken }
 })
